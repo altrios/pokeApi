@@ -1,0 +1,161 @@
+@import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap");
+
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+$contrast-color: #7f8c8d; // Cambia este valor según tus necesidades
+$loader-color: darken($contrast-color, 10%); // Ajusta el porcentaje según tus necesidades
+
+
+.spin-slow {
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  animation: rotate 3s linear infinite;
+}
+
+// Estilos adicionales
+.spin-slow img {
+  width: 50px; // Ajusta el tamaño según tus necesidades
+  height: 50px; // Ajusta el tamaño según tus necesidades
+  display: block;
+  margin: 0 auto; // Centra la imagen horizontalmente
+  filter: contrast(2.2) #{$loader-color}; // Aplica el color del filtro
+
+  
+  // Añade estos estilos para centrar verticalmente en el contenedor
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+// Uso:
+.element-with-rotation {
+  @extend .spin-slow;
+  display: flex;
+  align-items: center; // Centra verticalmente los elementos hijos
+  // Otros estilos si es necesario
+}
+
+
+
+.section-container {
+  // margin: -8px;
+  background: #F6F8FC url('../public/pokeball-icon.png') no-repeat fixed;
+  background-size: -10% -20%; // Ajusta según tus necesidades
+  // height: 100vh;
+  // width: 100vw;
+  padding: 20px;
+  font-family: 'Outfit', sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr minmax(350px, 1fr);
+  }
+
+  .content {
+    width: 100%;
+    grid-column: span 2;
+    padding-top: 100px;
+  }
+}
+
+.css-14j1sok-MuiGrid-root {
+  @media (min-width: 1536px) {
+
+    flex-basis: 20% !important;
+  }
+
+}
+
+.list-type-box {
+  flex: 1 1 calc(50% - 4px);
+  max-width: calc(50% - 4px);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 4px;
+  box-sizing: border-box;
+}
+
+.pokemon-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+
+  .pokemon-card {
+    flex: 1 1 calc(20% - 16px) !important;
+    max-width: calc(20% - 16px) !important;
+    padding: 16px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+    text-align: center;
+
+    @media (max-width: 1024px) {
+      flex: 1 1 calc(25% - 16px);
+      max-width: calc(25% - 16px);
+    }
+
+    @media (max-width: 768px) {
+      flex: 1 1 calc(50% - 16px);
+      max-width: calc(50% - 16px);
+    }
+
+    @media (max-width: 480px) {
+      flex: 1 1 calc(100% - 16px);
+      max-width: calc(100% - 16px);
+    }
+  }
+}
+
+
+nav {
+  background-color: #2196f3;
+  color: white;
+  padding: 15px;
+  position: fixed;
+  width: 91%;
+  z-index: 1000;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.grid-item {
+  width: 100%;
+}
