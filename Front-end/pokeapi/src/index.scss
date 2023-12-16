@@ -20,6 +20,7 @@ $loader-color: darken($contrast-color, 10%); // Ajusta el porcentaje según tus 
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -36,11 +37,23 @@ $loader-color: darken($contrast-color, 10%); // Ajusta el porcentaje según tus 
   margin: 0 auto; // Centra la imagen horizontalmente
   filter: contrast(2.2) #{$loader-color}; // Aplica el color del filtro
 
-  
+
   // Añade estos estilos para centrar verticalmente en el contenedor
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+}
+
+fieldset {
+  border: 1px solid #FFFFFF !important;
+  padding-bottom: 10px;
+}
+.search-button {
+  background-color: #362d5c !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+
 }
 
 // Uso:
@@ -57,7 +70,7 @@ $loader-color: darken($contrast-color, 10%); // Ajusta el porcentaje según tus 
   // margin: -8px;
   background: #F6F8FC url('../public/pokeball-icon.png') no-repeat fixed;
   background-size: -10% -20%; // Ajusta según tus necesidades
-  // height: 100vh;
+  height: 100%;
   // width: 100vw;
   padding: 20px;
   font-family: 'Outfit', sans-serif;
@@ -105,12 +118,13 @@ $loader-color: darken($contrast-color, 10%); // Ajusta el porcentaje según tus 
   .pokemon-card {
     flex: 1 1 calc(20% - 16px) !important;
     max-width: calc(20% - 16px) !important;
-    padding: 16px;
+    padding: 0px !important;
     background-color: #f0f0f0;
-    border-radius: 8px;
+    border-radius: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 16px;
+    margin-bottom: 16px!important;
     text-align: center;
+    // cursor: pointer;
 
     @media (max-width: 1024px) {
       flex: 1 1 calc(25% - 16px);

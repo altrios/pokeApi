@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Pokelist from './components/pokelist.component';
 import usePokemonContext from "./hooks/usePokemonContext";
+import PokeCardDetail from './components/pokeCardDetail.component';
 
 function App() {
   const { pokemonDetail, isLoading } = usePokemonContext() || {};
@@ -25,6 +26,7 @@ function App() {
           <div className='content justify-center items-center'>
             <Routes>
               <Route path="/" element={<Pokelist  />} />
+              <Route path="/:id" element={<PokeCardDetail  />} />
             </Routes>
           </div>
         </main>

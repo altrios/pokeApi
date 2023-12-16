@@ -45,7 +45,7 @@ const getEvolutions = async (evolutionInfo) => {
     const evoDetails = evolutionData["evolution_details"][0];
 
     evolutions.push({
-      name: evolutionData.species.name,
+      name: evolutionData.species?.name,
       min_level: evoDetails?.min_level ?? 1,
     });
 
