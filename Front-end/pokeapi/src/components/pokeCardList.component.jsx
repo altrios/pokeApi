@@ -7,6 +7,7 @@ import { colorByType } from "../constants/pokemon";
 const PokeCardList = ({ item }) => {
     const [pokemon, setPokemon] = useState([]);
     const [evolvefrom, setEvolvefrom] = useState("")
+    // const [evolutionChain, setEvolutionChain] = useState({})
 
     useEffect(() => {
 
@@ -20,6 +21,20 @@ const PokeCardList = ({ item }) => {
                             .then((specie) => {
                                 axios.get(specie.data.evolution_chain.url)
                                     .then((evolution_chain) => {
+                                        // setEvolutionChain({
+                                        //     'evolutionset': evolution_chain.data.chain,
+                                        //     'first': evolution_chain.data.chain.species,
+                                        //     'second': {
+                                        //         'name': evolution_chain.data.chain.evolves_to[0]?.species?.name,
+                                        //         'evoLVL': evolution_chain.data.chain.evolves_to[0]?.evolution_details?.min_level
+                                        //     },
+                                        //     'thirth': {
+                                        //         'name': evolution_chain.data.chain.evolves_to[0]?.evolves_to[0]?.species.name,
+                                        //         'evoLVL': evolution_chain.data.chain.evolves_to[0]?.evolves_to[0]?.evolution_details?.min_level
+                                        //     }
+                                        // })
+
+
                                         if (evolution_chain.data.chain.species?.name !== item.name) {
                                             if (evolution_chain.data.chain.evolves_to[0]?.species?.name === item.name) {
                                                 setEvolvefrom(evolution_chain.data.chain?.species?.name)
@@ -44,21 +59,25 @@ const PokeCardList = ({ item }) => {
 
     const navigate = useNavigate();
     const handleCardClick = () => {
-        navigate(`/${item.name}`, { 
+        navigate(`/${item.name}`, {
             state: {
-                 item, 
-                 pokemonTypes: pokemon.types,
-                 backgroundColors: pokemon.types?.map((item) => colorByType[item.type.name]) } });
+                item,
+                pokemonTypes: pokemon.types,
+                backgroundColors: pokemon.types?.map((item) => colorByType[item.type.name]),
+                // pokeEvo: evolutionChain
+            }
+        });
     };
     return (
-        <Box 
+        <Box
+            xs={12} sm={6} md={4} lg={3}
             sx={{
                 cursor: 'pointer',
                 height: '100%',
             }}
             onClick={handleCardClick}
         >
-            <Card className='grid-item' style={{ height: '100%', borderRadius: '16px' }}>
+            <Card className='grid-item' style={{ height: '100%', borderRadius: '16px' }} >
                 <CardContent className='text-center'>
                     <img
                         src={item.image}
@@ -89,7 +108,7 @@ const PokeCardList = ({ item }) => {
                         </Typography>
 
                     </Box>
-                    <Box display="flex" justifyContent="center">
+                    <Box display="flex" justifyContent="center" >
                         {evolvefrom && (
                             <Typography>
                                 Evolves from: <span>{evolvefrom}</span>

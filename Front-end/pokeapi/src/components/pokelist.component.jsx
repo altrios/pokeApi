@@ -49,7 +49,7 @@ const Pokelist = (pokemonDetail) => {
 
     return (
         <>
-            <Grid style={{ paddingBottom: '10px' }}>
+            <Grid container style={{ paddingBottom: '10px' }}>
                 <form>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <TextField
@@ -93,10 +93,10 @@ const Pokelist = (pokemonDetail) => {
                     </div>
                 </form>
             </Grid>
-            <Grid container spacing={2} className="justify-center items-center pokemon-list" style={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid spacing={2} xs={12} sm={6} md={4} lg={3} className=" pokemon-list" style={{ display: '', justifyContent: 'center' }}>
 
                 {pokemonsByName.slice(0, limit).map((item, index) => (
-                    <Grid  item xs={12} sm={6} md={4} lg={3} key={index} className='justify-center items-center pokemon-card'>
+                    <Grid  item  key={index} className='justify-center items-center pokemon-card'>
                         <PokeCardList item={item} />
                     </Grid>
                 ))}
