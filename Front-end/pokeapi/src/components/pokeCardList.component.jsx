@@ -1,50 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { colorByType } from "../constants/pokemon";
 
 const PokeCardList = ({ item }) => {
-    const [pokemon, setPokemon] = useState([]);
-    const [evolvefrom, setEvolvefrom] = useState("")
-    // const [evolutionChain, setEvolutionChain] = useState({})
+    const evolvefrom = item.evolvefrom
 
     useEffect(() => {
         const hasToken = !!sessionStorage.getItem('token');
-        if(!hasToken){
+        if (!hasToken) {
             navigate('/login')
         }
         console.log(hasToken)
-        const fetchData = async () => {
-            try {
-                axios
-                    .get(item.url)
-                    .then(({ data }) => {
-                        setPokemon(data)
-                        axios.get(data.species?.url)
-                            .then((specie) => {
-                                axios.get(specie.data.evolution_chain.url)
-                                    .then((evolution_chain) => {
-                                        if (evolution_chain.data.chain.species?.name !== item.name) {
-                                            if (evolution_chain.data.chain.evolves_to[0]?.species?.name === item.name) {
-                                                setEvolvefrom(evolution_chain.data.chain?.species?.name)
-                                            } else {
-                                                setEvolvefrom(evolution_chain.data.chain.evolves_to[0]?.species?.name)
-                                            }
 
-                                        }
-                                    })
-                            }
-                            )
-                            .catch((err) => console.log(err));
-                    })
-                    .catch((err) => console.log(err));
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
     }, []);
 
     const navigate = useNavigate();
@@ -52,8 +21,8 @@ const PokeCardList = ({ item }) => {
         navigate(`/poke/${item.name}`, {
             state: {
                 item,
-                pokemonTypes: pokemon.types,
-                backgroundColors: pokemon.types?.map((item) => colorByType[item.type.name]),
+                pokemonTypes: item.types,
+                backgroundColors: item.types?.map((item) => colorByType[item.type.name]),
                 // pokeEvo: evolutionChain
             }
         });
@@ -86,7 +55,7 @@ const PokeCardList = ({ item }) => {
 
                     <Box display="flex" gap={2} justifyContent="center">
                         <Typography variant="h6">
-                            {pokemon.types?.map((item, index) => (
+                            {item.types?.map((item, index) => (
                                 <span
                                     key={index}
                                     style={{ backgroundColor: colorByType[item.type.name] }}

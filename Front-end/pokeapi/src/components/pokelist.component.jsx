@@ -12,6 +12,7 @@ const INCREASE_LIMIT = 20;
 const Pokelist = (pokemonDetail) => {
     const [allPokemons, setAllPokemons] = useState([]);
     const [pokemonName, setPokemonName] = useState("");
+    const [evolvefrom, setEvolvefrom] = useState("")
     const pokemonsByName = allPokemons.filter((pokemon) =>
         pokemon.name.includes(pokemonName)
     );
@@ -40,11 +41,58 @@ const Pokelist = (pokemonDetail) => {
             newLimit > maxPokemons ? setLimit(maxPokemons) : setLimit(newLimit);
             newLimit > maxPokemons ? setLoading(false) : setLoading(true);
         }
-    }, [isVisible]);
+    }, [isVisible, pokemonsByName, limit]);
 
     useEffect(() => {
         setLimit(INITIAL_LIMIT);
     }, [pokemonName]);
+
+
+    useEffect(() => {
+        const fetchData = async (pokemon) => {
+            try {
+                const { data } = await axios.get(pokemon.url);
+                // setPokemon(data);
+                pokemon.types = data.types
+                console.log(pokemon)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+            try {
+                axios
+                    .get(pokemon.url)
+                    .then(({ data }) => {
+                        axios.get(data.species?.url)
+                            .then((specie) => {
+                                axios.get(specie.data.evolution_chain.url)
+                                    .then((evolution_chain) => {
+                                        if (evolution_chain.data.chain.species?.name !== data.name) {
+                                            if (evolution_chain.data.chain.evolves_to[0]?.species?.name === data.name) {
+                                                pokemon.evolvefrom=evolution_chain.data.chain?.species?.name
+                                            } else {
+                                                pokemon.evolvefrom=evolution_chain.data.chain.evolves_to[0]?.species?.name
+                                            }
+
+                                        }
+                                    })
+                            }
+                            )
+                            .catch((err) => console.log(err));
+                    })
+                    .catch((err) => console.log(err));
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+
+        };
+
+        // Iterar sobre la lista de pokémons y llamar a fetchData para cada uno
+        pokemonsByName.slice(0, limit).forEach((pokemon, index) => {
+            fetchData(pokemon);
+        });
+    }, [pokemonsByName, limit]);
+
+
 
 
     return (
@@ -64,7 +112,7 @@ const Pokelist = (pokemonDetail) => {
                                 width: '90%',
                                 fontSize: '1.25rem',
                                 borderRadius: '10px',
-                                marginBottom:'15px',
+                                marginBottom: '15px',
                                 '& .MuiInputBase-root': {
                                     backgroundColor: '#FFFFFF',
                                     border: '1px solid #FFFFFF',
@@ -96,7 +144,7 @@ const Pokelist = (pokemonDetail) => {
             <Grid spacing={2} xs={12} sm={6} md={4} lg={3} className=" pokemon-list" style={{ display: '', justifyContent: 'center' }}>
 
                 {pokemonsByName.slice(0, limit).map((item, index) => (
-                    <Grid  item  key={index} className='justify-center items-center pokemon-card'>
+                    <Grid item key={index} className='justify-center items-center pokemon-card'>
                         <PokeCardList item={item} />
                     </Grid>
                 ))}

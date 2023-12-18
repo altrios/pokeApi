@@ -32,9 +32,9 @@ function App() {
     }
 
   }, [])
-  console.log = function() {};
-  console.error = function() {};
-  return (
+  // console.log = function() {};
+  // console.error = function() {};
+  return (  
     <Router>
       {userbar &&
         <nav>
