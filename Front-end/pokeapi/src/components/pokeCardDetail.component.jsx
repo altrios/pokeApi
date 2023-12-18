@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box, Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTheme } from '@mui/system';
 import { colorByType, colorByStat } from '../constants/pokemon';
 import EvolutionChain from './evolutionChain.component';
 
 const PokeCardDetail = () => {
+    const navigate = useNavigate();
     const { state } = useLocation();
     const pokeInfo = state?.item;
     const poketypes = state?.pokemonTypes;
@@ -17,6 +19,10 @@ const PokeCardDetail = () => {
     let gradientDefinition = '';
 
     useEffect(() => {
+        const hasToken = !!sessionStorage.getItem('token');
+        if(!hasToken){
+            navigate('/login')
+        }
         axios
             .get(pokeInfo.url)
             .then((info) => {

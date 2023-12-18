@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Box } from '@mui/material';
-import { NavLink, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { colorByType } from "../constants/pokemon";
 
@@ -10,7 +10,11 @@ const PokeCardList = ({ item }) => {
     // const [evolutionChain, setEvolutionChain] = useState({})
 
     useEffect(() => {
-
+        const hasToken = !!sessionStorage.getItem('token');
+        if(!hasToken){
+            navigate('/login')
+        }
+        console.log(hasToken)
         const fetchData = async () => {
             try {
                 axios
@@ -21,20 +25,6 @@ const PokeCardList = ({ item }) => {
                             .then((specie) => {
                                 axios.get(specie.data.evolution_chain.url)
                                     .then((evolution_chain) => {
-                                        // setEvolutionChain({
-                                        //     'evolutionset': evolution_chain.data.chain,
-                                        //     'first': evolution_chain.data.chain.species,
-                                        //     'second': {
-                                        //         'name': evolution_chain.data.chain.evolves_to[0]?.species?.name,
-                                        //         'evoLVL': evolution_chain.data.chain.evolves_to[0]?.evolution_details?.min_level
-                                        //     },
-                                        //     'thirth': {
-                                        //         'name': evolution_chain.data.chain.evolves_to[0]?.evolves_to[0]?.species.name,
-                                        //         'evoLVL': evolution_chain.data.chain.evolves_to[0]?.evolves_to[0]?.evolution_details?.min_level
-                                        //     }
-                                        // })
-
-
                                         if (evolution_chain.data.chain.species?.name !== item.name) {
                                             if (evolution_chain.data.chain.evolves_to[0]?.species?.name === item.name) {
                                                 setEvolvefrom(evolution_chain.data.chain?.species?.name)
@@ -59,7 +49,7 @@ const PokeCardList = ({ item }) => {
 
     const navigate = useNavigate();
     const handleCardClick = () => {
-        navigate(`/${item.name}`, {
+        navigate(`/poke/${item.name}`, {
             state: {
                 item,
                 pokemonTypes: pokemon.types,
